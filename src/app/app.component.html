@@ -1,0 +1,13 @@
+
+<form [formGroup]="gradeForm">
+  <select formControlName="studentName">     
+    <option *ngFor="let student of students" [value]="student">{{student}}</option>
+  </select> 
+  <label for="courseName">Course Name: </label>
+  <input type="text" placeholder="Enter course name" id="courseName" formControlName="courseName" minlength="10" maxlength="50" required>
+  <label for="courseScore">Course Score: </label>
+  <input type="number" placeholder="Score" id="courseScore" min="0" max="100" formControlName="courseScore"required>
+  <button type="submit" (click)="calculateGrade()">Submit</button>
+  <button type="reset">Clear</button>
+</form>
+
