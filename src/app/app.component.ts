@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormGroup,FormBuilder,Validators } from '@angular/forms';
+import { gradeForm } from './gradeForm';
+import { CustomFormsModule } from 'ng2-validation'
+
 
 @Component({
   selector: 'app-root',
@@ -12,16 +15,21 @@ export class AppComponent {
   students: any = Array();
   gradeForm: FormGroup;
 
+  public studentList: any
+  public courseName: string
+  public courseScore: string
+  public courseGrade: string
+  public studentStatement: string
+  public splicedStudentStatement: string
+
   constructor(private formBuilder: FormBuilder) {
+    
   }
+
 
   ngOnInit(): void {
 
-    this.gradeForm = this.formBuilder.group({
-      studentName: [ '', Validators.required],
-      courseName: [ '', Validators.required],
-      courseScore: ['', Validators.required]
-    })
+ 
     this.students.push("Alex")
     this.students.push("Christian")
     this.students.push("Ralph")
@@ -32,11 +40,39 @@ export class AppComponent {
 
   }
 
-  calculateGrade(){
-    console.log("inside calc")
-    console.log(this.gradeForm.controls['studentName'].value)
-    if (this.gradeForm.valid){
-      console.log(this.gradeForm.controls['studentName'].value)
-    }
+  onSubmit(){
+    console.log("Coursename: " + this.courseName)
+    console.log("Studentlist: " + this.studentList)
+    console.log("score: " + this.courseScore)
+    this.calculateGrade(this.courseScore);
+    console.log("grade: " + this.courseGrade)
+    this.studentStatement = "Student " + this.studentList + " takes the course " + this.courseName + " has the grade " + this.courseGrade
+    this.splicedStudentStatement = this.courseName.slice(1, -1);
+  }
+
+  calculateGrade(gradeNumber: any){
+    console.log("gradenUmber passed: " + gradeNumber);
+    switch(true) { 
+      case (gradeNumber <= 60): { 
+         this.courseGrade = "F";
+         break; 
+      } 
+      case (gradeNumber <= 70): { 
+         this.courseGrade = "D";
+         break; 
+      } 
+      case (gradeNumber <= 80): { 
+        this.courseGrade = "B";
+        break; 
+     } 
+     case (gradeNumber <= 100): { 
+      this.courseGrade = "A";
+      break; 
+   } 
+      default: { 
+         //statements; 
+         break; 
+      } 
+   } 
   }
 }
